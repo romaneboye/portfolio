@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romane Boyé — Contact</title>
+
+  <!-- ✅ Polices Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- ✅ Feuille de styles partagée entre toutes les pages -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION — le lien "Contact" porte la classe "active"
+       ============================================================ -->
+  <nav>
+    <a href="index.html" class="nav-logo">RB_</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="projets.html">Projets IA</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       CONTENU PRINCIPAL DE LA PAGE CONTACT
+       ============================================================ -->
+  <main>
+
+    <!-- En-tête de la page -->
+    <div class="page-header">
+      <h1 class="section-title">Me Contacter</h1>
+      <p class="section-subtitle">Discutons de votre projet !</p>
+    </div>
+
+    <div class="container">
+      <div class="contact-grid">
+
+        <!-- ── COLONNE GAUCHE : Infos de contact ── -->
+        <div>
+          <h3 class="cv-block-title">📬 Informations</h3>
+
+          <!-- Email -->
+          <div class="contact-info-card">
+            <div class="contact-icon contact-icon-indigo">✉️</div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">romane.boye@email.com</div>
+            </div>
+          </div>
+
+          <!-- Localisation -->
+          <div class="contact-info-card">
+            <div class="contact-icon contact-icon-pink">📍</div>
+            <div>
+              <div class="contact-label">Localisation</div>
+              <div class="contact-value">Ile-de-France, France 🇫🇷</div>
+            </div>
+          </div>
+
+          <!-- Disponibilité -->
+          <div class="contact-info-card">
+            <div class="contact-icon contact-icon-green">🟢</div>
+            <div>
+              <div class="contact-label">Disponibilité</div>
+              <div class="contact-value">Disponible immédiatement</div>
+            </div>
+          </div>
+
+          <!-- Boutons réseaux sociaux -->
+          <div class="social-links">
+            <a href="https://www.linkedin.com/in/romane-boye/" target="_blank" class="footer-linkedin">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.45 20.45h-3.554v-5.57c0-1.328-.025-3.037-1.85-3.037-1.852 0-2.135 1.446-2.135 2.94v5.667H9.357V9h3.414v1.561h.048c.476-.9 1.637-1.85 3.368-1.85 3.6 0 4.267 2.37 4.267 5.455v6.284zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.956 20.45H3.714V9h3.242v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
+            </a>
+          </div>
+
+        <!-- ── COLONNE DROITE : Formulaire de contact ──
+             Pour connecter l'envoi réel sans JS, utilise Formspree :
+             1. Crée un compte sur formspree.io
+             2. Remplace action="#" par ton URL Formspree
+                ex : action="https://formspree.io/f/xabcdefg" -->
+        <div class="form-card">
+          <h3 class="cv-block-title" style="margin-bottom:1.5rem">✍️ Envoyer un message</h3>
+
+          <form action="#" method="POST">
+
+            <!-- Nom + Email sur la même ligne -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nom">Nom complet</label>
+                <input type="text" id="nom" name="nom" placeholder="Jean Dupont" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Adresse email</label>
+                <input type="email" id="email" name="email" placeholder="jean@email.com" required />
+              </div>
+            </div>
+
+            <!-- Sujet -->
+            <div class="form-group">
+              <label for="sujet">Sujet</label>
+              <input type="text" id="sujet" name="sujet" placeholder="Proposition de collaboration…" />
+            </div>
+
+            <!-- Message -->
+            <div class="form-group">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Décrivez votre projet ou votre demande…" required></textarea>
+            </div>
+
+            <!-- Bouton d'envoi -->
+            <button type="submit" class="btn-submit">
+              ✦ Envoyer le message
+            </button>
+
+          </form>
+        </div>
+
+      </div><!-- /contact-grid -->
+    </div><!-- /container -->
+
+  </main>
+
+  <!-- Footer -->
+<footer>
+  <div class="footer-inner">
+
+    <p class="footer-text">
+      Conçu avec <span>passion</span> & <span>IA</span> par <span>Romane Boyé</span> · 2026
+    </p>
+
+    <a href="https://www.linkedin.com/in/romane-boye/" target="_blank" class="footer-linkedin">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20.45 20.45h-3.554v-5.57c0-1.328-.025-3.037-1.85-3.037-1.852 0-2.135 1.446-2.135 2.94v5.667H9.357V9h3.414v1.561h.048c.476-.9 1.637-1.85 3.368-1.85 3.6 0 4.267 2.37 4.267 5.455v6.284zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.956 20.45H3.714V9h3.242v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+      LinkedIn
+    </a>
+
+  </div>
+</footer>
+
+</body>
+</html>

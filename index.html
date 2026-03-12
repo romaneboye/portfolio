@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romane Boyé — Accueil</title>
+
+  <!-- ✅ Polices Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- ✅ Feuille de styles partagée entre toutes les pages -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION — identique sur toutes les pages.
+       Le lien actif porte la classe "active" (ici : Accueil).
+       Pour changer de page, on clique sur un lien vers un autre .html
+       ============================================================ -->
+  <nav>
+    <a href="index.html" class="nav-logo">RB_</a>
+    <ul class="nav-links">
+      <li><a href="index.html"   class="active">Accueil</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="projets.html">Projets IA</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============================================================
+       CONTENU PRINCIPAL DE LA PAGE ACCUEIL
+       ============================================================ -->
+  <main>
+    <div class="hero">
+
+      <!-- ✅ PHOTO DE PROFIL
+           Remplace "ta-photo.jpg" par le nom de ton fichier image
+           (place l'image dans le même dossier que ce fichier HTML) -->
+      <div class="hero-avatar">
+        <div class="hero-avatar-inner">
+          <img src="photo_romane_boye.jpg" alt="Photo de Romane Boyé"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+               onload="this.nextElementSibling.style.display='none';" />
+          <!-- Placeholder affiché si la photo est introuvable -->
+          <div class="hero-avatar-placeholder">
+            <span class="placeholder-icon">🧑‍💻</span>
+            <span>Ta photo ici</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pill de disponibilité avec point vert animé -->
+      <div class="hero-pill">
+        <span class="dot"></span>
+        Disponible pour de nouveaux projets IA !
+      </div>
+
+      <!-- Nom principal -->
+      <h1 class="hero-name">Romane Boyé</h1>
+
+      <!-- Sous-titre -->
+      <p class="hero-role">
+        Marketing Digital & Data Analytics —
+        <span>Passionnée d'IA</span>
+      </p>
+
+      <!-- Description courte -->
+      <p class="hero-desc">
+        3 ans de spécialisation en marketing digital, une passion 
+        pour la data, et une obsession pour l'IA. En Master 1, je 
+        construis activement le profil que le marché va exiger demain : 
+        marketer, analyste et experte IA — tout à la fois.
+      </p>
+
+      <!-- 2 boutons d'action — redirigent vers d'autres pages -->
+      <div class="hero-btns">
+        <a href="projets.html" class="btn btn-primary">✦ Voir mes projets</a>
+        <a href="contact.html" class="btn btn-outline">✉ Me contacter</a>
+      </div>
+
+      <!-- 4 cartes statistiques -->
+      <div class="stats-grid">
+
+        <a href="cv.html" class="stat-card">
+  <span class="stat-icon">💼</span>
+  <span class="stat-value">+2</span>
+  <span class="stat-label">Ans d'expérience</span>
+</a>
+
+        <a href="projets.html" class="stat-card">
+          <span class="stat-icon">🚀</span>
+          <span class="stat-value">+5</span>
+          <span class="stat-label">Projets réalisés</span>
+        </a>
+
+        <a href="cv.html" class="stat-card">
+          <span class="stat-icon">🎓</span>
+          <span class="stat-value">+4</span>
+          <span class="stat-label">Ans d'études sup.</span>
+        </a>
+
+      </div>
+    </div><!-- /hero -->
+  </main>
+
+  <!-- ============================================================
+       FOOTER — identique sur toutes les pages
+       ============================================================ -->
+<footer>
+  <div class="footer-inner">
+
+    <p class="footer-text">
+      Conçu avec <span>passion</span> & <span>IA</span> par <span>Romane Boyé</span> · 2026
+    </p>
+
+    <a href="https://www.linkedin.com/in/romane-boye/" target="_blank" class="footer-linkedin">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20.45 20.45h-3.554v-5.57c0-1.328-.025-3.037-1.85-3.037-1.852 0-2.135 1.446-2.135 2.94v5.667H9.357V9h3.414v1.561h.048c.476-.9 1.637-1.85 3.368-1.85 3.6 0 4.267 2.37 4.267 5.455v6.284zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.956 20.45H3.714V9h3.242v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+      LinkedIn
+    </a>
+
+  </div>
+</footer>
+
+</body>
+</html>

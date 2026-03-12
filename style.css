@@ -237,7 +237,7 @@ footer {
 
 /* Section hero principale */
 .hero {
-  min-height: calc(100vh - var(--nav-h) - 80px);
+  min-height: calc(100vh - var(--nav-h));
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -245,7 +245,7 @@ footer {
   text-align: center;
   padding: 4rem 1.5rem 3rem;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
 }
 
 /* Blobs de fond */
@@ -263,9 +263,9 @@ footer {
   top: -120px; left: -140px;
 }
 .hero::after {
-  width: 500px; height: 500px;
+  width: 400px; height: 400px;
   background: var(--pink);
-  bottom: -150px; right: -80px;
+  bottom: -100px; right: -80px;
 }
 
 /* Photo de profil */

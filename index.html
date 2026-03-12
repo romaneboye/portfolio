@@ -14,11 +14,6 @@
 
 <body>
 
-  <!-- ============================================================
-       NAVIGATION — identique sur toutes les pages.
-       Le lien actif porte la classe "active" (ici : Accueil).
-       Pour changer de page, on clique sur un lien vers un autre .html
-       ============================================================ -->
   <nav>
     <a href="index.html" class="nav-logo">RB_</a>
     <ul class="nav-links">
@@ -29,21 +24,14 @@
     </ul>
   </nav>
 
-  <!-- ============================================================
-       CONTENU PRINCIPAL DE LA PAGE ACCUEIL
-       ============================================================ -->
   <main>
     <div class="hero">
 
-      <!-- ✅ PHOTO DE PROFIL
-           Remplace "ta-photo.jpg" par le nom de ton fichier image
-           (place l'image dans le même dossier que ce fichier HTML) -->
       <div class="hero-avatar">
         <div class="hero-avatar-inner">
           <img src="photo_romane_boye.jpg" alt="Photo de Romane Boyé"
                onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
                onload="this.nextElementSibling.style.display='none';" />
-          <!-- Placeholder affiché si la photo est introuvable -->
           <div class="hero-avatar-placeholder">
             <span class="placeholder-icon">🧑‍💻</span>
             <span>Ta photo ici</span>
@@ -51,22 +39,18 @@
         </div>
       </div>
 
-      <!-- Pill de disponibilité avec point vert animé -->
       <div class="hero-pill">
         <span class="dot"></span>
         Disponible pour de nouveaux projets IA !
       </div>
 
-      <!-- Nom principal -->
       <h1 class="hero-name">Romane Boyé</h1>
 
-      <!-- Sous-titre -->
       <p class="hero-role">
         Marketing Digital & Data Analytics —
         <span>Passionnée d'IA</span>
       </p>
 
-      <!-- Description courte -->
       <p class="hero-desc">
         3 ans de spécialisation en marketing digital, une passion 
         pour la data, et une obsession pour l'IA. En Master 1, je 
@@ -74,20 +58,18 @@
         marketer, analyste et experte IA — tout à la fois.
       </p>
 
-      <!-- 2 boutons d'action — redirigent vers d'autres pages -->
       <div class="hero-btns">
         <a href="projets.html" class="btn btn-primary">✦ Voir mes projets</a>
         <a href="contact.html" class="btn btn-outline">✉ Me contacter</a>
       </div>
 
-      <!-- 4 cartes statistiques -->
       <div class="stats-grid">
 
         <a href="cv.html" class="stat-card">
-  <span class="stat-icon">💼</span>
-  <span class="stat-value">+2</span>
-  <span class="stat-label">Ans d'expérience</span>
-</a>
+          <span class="stat-icon">💼</span>
+          <span class="stat-value">+2</span>
+          <span class="stat-label">Ans d'expérience</span>
+        </a>
 
         <a href="projets.html" class="stat-card">
           <span class="stat-icon">🚀</span>
@@ -102,28 +84,352 @@
         </a>
 
       </div>
-    </div><!-- /hero -->
+    </div>
   </main>
 
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-text">
+        Conçu avec <span>passion</span> & <span>IA</span> par <span>Romane Boyé</span> · 2026
+      </p>
+      <a href="https://www.linkedin.com/in/romane-boye/" target="_blank" class="footer-linkedin">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20.45 20.45h-3.554v-5.57c0-1.328-.025-3.037-1.85-3.037-1.852 0-2.135 1.446-2.135 2.94v5.667H9.357V9h3.414v1.561h.048c.476-.9 1.637-1.85 3.368-1.85 3.6 0 4.267 2.37 4.267 5.455v6.284zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.956 20.45H3.714V9h3.242v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        LinkedIn
+      </a>
+    </div>
+  </footer>
+
   <!-- ============================================================
-       FOOTER — identique sur toutes les pages
+       CHATBOT FAQ — Romane Boyé
        ============================================================ -->
-<footer>
-  <div class="footer-inner">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
-    <p class="footer-text">
-      Conçu avec <span>passion</span> & <span>IA</span> par <span>Romane Boyé</span> · 2026
-    </p>
+  <button id="chat-toggle" aria-label="Ouvrir le chat">
+    <svg id="icon-chat" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+    <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
 
-    <a href="https://www.linkedin.com/in/romane-boye/" target="_blank" class="footer-linkedin">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M20.45 20.45h-3.554v-5.57c0-1.328-.025-3.037-1.85-3.037-1.852 0-2.135 1.446-2.135 2.94v5.667H9.357V9h3.414v1.561h.048c.476-.9 1.637-1.85 3.368-1.85 3.6 0 4.267 2.37 4.267 5.455v6.284zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.956 20.45H3.714V9h3.242v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-      </svg>
-      LinkedIn
-    </a>
+  <div id="chat-window" aria-live="polite">
+    <div id="chat-header">
+      <div id="chat-avatar">RB</div>
+      <div>
+        <div id="chat-name">Assistante de Romane</div>
+        <div id="chat-status"><span id="status-dot"></span> Disponible</div>
+      </div>
+    </div>
 
+    <div id="chat-messages">
+      <div class="msg bot">
+        <div class="bubble">Bonjour 👋 Je suis l'assistante IA de <strong>Romane Boyé</strong>.<br>Pose-moi tes questions sur son parcours, ses compétences ou ses projets !</div>
+      </div>
+      <div id="suggestions">
+        <button class="suggest" onclick="sendSuggestion(this)">Quelles sont ses compétences ?</button>
+        <button class="suggest" onclick="sendSuggestion(this)">Quels projets a-t-elle réalisés ?</button>
+        <button class="suggest" onclick="sendSuggestion(this)">Est-elle disponible ?</button>
+      </div>
+    </div>
+
+    <div id="chat-input-area">
+      <input id="chat-input" type="text" placeholder="Pose ta question…" autocomplete="off" />
+      <button id="send-btn" onclick="sendMessage()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
   </div>
-</footer>
+
+  <style>
+    :root {
+      --chat-accent: #0f172a;
+      --chat-accent2: #f97316;
+      --chat-bg: #ffffff;
+      --chat-surface: #f8fafc;
+      --chat-border: #e2e8f0;
+      --chat-text: #0f172a;
+      --chat-muted: #64748b;
+      --chat-bot-bubble: #f1f5f9;
+      --chat-user-bubble: #0f172a;
+      --chat-user-text: #ffffff;
+      --chat-shadow: 0 25px 60px rgba(15,23,42,0.15), 0 8px 20px rgba(15,23,42,0.08);
+      --chat-radius: 20px;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    #chat-toggle {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--chat-accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 25px rgba(15,23,42,0.3);
+      z-index: 9998;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease;
+    }
+    #chat-toggle:hover { transform: scale(1.1); box-shadow: 0 12px 35px rgba(15,23,42,0.4); }
+    #chat-toggle::after {
+      content: '';
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: var(--chat-accent2);
+      border-radius: 50%;
+      top: 2px;
+      right: 2px;
+      border: 2px solid white;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
+    }
+
+    #chat-window {
+      position: fixed;
+      bottom: 100px;
+      right: 28px;
+      width: 370px;
+      max-height: 560px;
+      background: var(--chat-bg);
+      border-radius: var(--chat-radius);
+      box-shadow: var(--chat-shadow);
+      display: flex;
+      flex-direction: column;
+      z-index: 9999;
+      border: 1px solid var(--chat-border);
+      font-family: var(--font-body);
+      overflow: hidden;
+      transform: scale(0.85) translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+      transform-origin: bottom right;
+    }
+    #chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: all; }
+
+    #chat-header {
+      background: var(--chat-accent);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    #chat-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--chat-accent2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-family: var(--font-display);
+      font-weight: 700;
+      flex-shrink: 0;
+      letter-spacing: 0.05em;
+    }
+    #chat-name { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+    #chat-status { font-size: 12px; opacity: 0.75; display: flex; align-items: center; gap: 5px; font-weight: 300; }
+    #status-dot { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; display: inline-block; animation: pulse-dot 2s infinite; }
+
+    #chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      scroll-behavior: smooth;
+    }
+    #chat-messages::-webkit-scrollbar { width: 4px; }
+    #chat-messages::-webkit-scrollbar-thumb { background: var(--chat-border); border-radius: 4px; }
+
+    .msg { display: flex; }
+    .msg.bot { justify-content: flex-start; }
+    .msg.user { justify-content: flex-end; }
+
+    .bubble {
+      max-width: 82%;
+      padding: 11px 15px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.55;
+      animation: bubble-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes bubble-in {
+      from { transform: scale(0.8) translateY(8px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .msg.bot .bubble { background: var(--chat-bot-bubble); color: var(--chat-text); border-bottom-left-radius: 4px; }
+    .msg.user .bubble { background: var(--chat-user-bubble); color: var(--chat-user-text); border-bottom-right-radius: 4px; }
+
+    .typing-bubble { display: flex; gap: 5px; padding: 14px 16px; align-items: center; }
+    .typing-bubble span { width: 7px; height: 7px; background: var(--chat-muted); border-radius: 50%; animation: typing 1.2s infinite; }
+    .typing-bubble span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-bubble span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    #suggestions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px; }
+    .suggest {
+      background: white;
+      border: 1.5px solid var(--chat-border);
+      color: var(--chat-text);
+      padding: 7px 13px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 500;
+    }
+    .suggest:hover { border-color: var(--chat-accent); background: var(--chat-accent); color: white; transform: translateY(-1px); }
+
+    #chat-input-area {
+      padding: 12px 14px;
+      border-top: 1px solid var(--chat-border);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      background: var(--chat-bg);
+      flex-shrink: 0;
+    }
+    #chat-input {
+      flex: 1;
+      border: 1.5px solid var(--chat-border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      color: var(--chat-text);
+      background: var(--chat-surface);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #chat-input:focus { border-color: var(--chat-accent); background: white; }
+    #chat-input::placeholder { color: var(--chat-muted); }
+
+    #send-btn {
+      width: 40px;
+      height: 40px;
+      background: var(--chat-accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background 0.2s, transform 0.15s;
+    }
+    #send-btn:hover { background: #1e293b; transform: scale(1.05); }
+    #send-btn:disabled { background: var(--chat-border); cursor: not-allowed; transform: none; }
+
+    @media (max-width: 420px) {
+      #chat-window { width: calc(100vw - 24px); right: 12px; bottom: 90px; }
+      #chat-toggle { right: 16px; bottom: 16px; }
+    }
+  </style>
+
+  <script>
+    // ⚙️ Remplace par ton URL Vercel après déploiement
+    const API_URL = 'portfolio-chatbot-8yw6e07si-romaneboyes-projects.vercel.app/api/chat';
+
+    const toggle = document.getElementById('chat-toggle');
+    const chatWindow = document.getElementById('chat-window');
+    const iconChat = document.getElementById('icon-chat');
+    const iconClose = document.getElementById('icon-close');
+    const input = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const messages = document.getElementById('chat-messages');
+
+    toggle.addEventListener('click', () => {
+      chatWindow.classList.toggle('open');
+      const isOpen = chatWindow.classList.contains('open');
+      iconChat.style.display = isOpen ? 'none' : 'block';
+      iconClose.style.display = isOpen ? 'block' : 'none';
+      if (isOpen) setTimeout(() => input.focus(), 300);
+    });
+
+    input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) sendMessage(); });
+
+    function sendSuggestion(btn) {
+      input.value = btn.textContent;
+      document.getElementById('suggestions').remove();
+      sendMessage();
+    }
+
+    function addMessage(text, role) {
+      const div = document.createElement('div');
+      div.className = `msg ${role}`;
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.innerHTML = text;
+      div.appendChild(bubble);
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function showTyping() {
+      const div = document.createElement('div');
+      div.className = 'msg bot';
+      div.id = 'typing-indicator';
+      div.innerHTML = `<div class="bubble typing-bubble"><span></span><span></span><span></span></div>`;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function removeTyping() {
+      const t = document.getElementById('typing-indicator');
+      if (t) t.remove();
+    }
+
+    async function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, 'user');
+      input.value = '';
+      sendBtn.disabled = true;
+      showTyping();
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text })
+        });
+        const data = await res.json();
+        removeTyping();
+        addMessage(data.reply || "Désolée, une erreur s'est produite.", 'bot');
+      } catch (err) {
+        removeTyping();
+        addMessage("Impossible de me connecter pour l'instant 🙏", 'bot');
+      }
+
+      sendBtn.disabled = false;
+      input.focus();
+    }
+  </script>
 
 </body>
 </html>

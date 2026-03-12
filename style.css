@@ -237,7 +237,7 @@ footer {
 
 /* Section hero principale */
 .hero {
-  min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100vh - var(--nav-h) - 80px);
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romane Boyé — Créations Social Media</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ============================================================
+       STYLES SPÉCIFIQUES — PAGE CRÉATIONS SOCIAL MEDIA
+       ============================================================ */
+
+    /* ── EN-TÊTE ── */
+    .page-header { position: relative; overflow: hidden; }
+    .page-header::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0; right: 0;
+      height: 40px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    /* ── FILTRES PAR MARQUE ── */
+    .brand-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      justify-content: center;
+      margin: 2.5rem 0 2rem;
+    }
+
+    .brand-btn {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .55rem 1.2rem;
+      border-radius: 50px;
+      font-family: var(--font);
+      font-size: .85rem;
+      font-weight: 600;
+      border: 2px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .25s ease;
+    }
+    .brand-btn:hover { border-color: var(--indigo); color: var(--indigo); }
+    .brand-btn.active {
+      background: linear-gradient(135deg, var(--indigo), var(--pink));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 16px rgba(99,102,241,.3);
+    }
+    .brand-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── GRILLE DE CONTENU ── */
+    .content-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.4rem;
+      padding-bottom: 4rem;
+    }
+    @media (max-width: 900px) { .content-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .content-grid { grid-template-columns: 1fr; } }
+
+    /* Carte cachée lors du filtrage */
+    .post-item { transition: opacity .3s ease, transform .3s ease; }
+    .post-item.hidden { display: none; }
+
+    /* ============================================================
+       SIMULATION INSTAGRAM
+       ============================================================ */
+    .insta-phone {
+      background: #fff;
+      border-radius: 18px;
+      border: 1px solid #dbdbdb;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,.10);
+      transition: transform .3s ease, box-shadow .3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .insta-phone:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0,0,0,.16);
+    }
+
+    /* ── Header du post Instagram ── */
+    .ig-header {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .7rem .9rem;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .ig-avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      font-size: .7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      padding: 2px;
+    }
+    .ig-avatar-inner {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: var(--bg-card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem;
+      font-weight: 800;
+      color: #262626;
+      overflow: hidden;
+    }
+    .ig-avatar-inner img { width: 100%; height: 100%; object-fit: cover; }
+    .ig-username { font-size: .8rem; font-weight: 700; color: #262626; }
+    .ig-location { font-size: .7rem; color: #8e8e8e; }
+    .ig-more { margin-left: auto; color: #262626; font-size: 1.1rem; line-height: 1; }
+
+    /* ── Zone média ── */
+    .ig-media {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1;
+      background: #f0f0f0;
+      overflow: hidden;
+    }
+    .ig-media img, .ig-media video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Badge type de contenu */
+    .ig-type-badge {
+      position: absolute;
+      top: .6rem; right: .6rem;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(4px);
+      color: #fff;
+      border-radius: 6px;
+      padding: .2rem .5rem;
+      font-size: .65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    /* Placeholder quand pas de fichier */
+    .ig-placeholder {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      background: linear-gradient(135deg, #eef2ff, #fdf2f8);
+      color: var(--text-muted);
+      font-size: .75rem;
+      font-weight: 600;
+    }
+    .ig-placeholder-icon { font-size: 2rem; }
+
+    /* ── Story : format portrait ── */
+    .ig-media.story { aspect-ratio: 9/16; max-height: 280px; }
+
+    /* ── Barre d'actions Instagram ── */
+    .ig-actions {
+      padding: .55rem .9rem .3rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+    }
+    .ig-action-icon {
+      width: 22px; height: 22px;
+      opacity: .85;
+      flex-shrink: 0;
+    }
+    .ig-save { margin-left: auto; }
+
+    /* ── Likes ── */
+    .ig-likes {
+      padding: 0 .9rem;
+      font-size: .78rem;
+      font-weight: 700;
+      color: #262626;
+    }
+
+    /* ── Légende ── */
+    .ig-caption {
+      padding: .25rem .9rem .6rem;
+      font-size: .76rem;
+      color: #262626;
+      line-height: 1.45;
+    }
+    .ig-caption strong { font-weight: 700; }
+    .ig-caption .ig-hashtags { color: #00376b; }
+
+    /* ── Vue Stories ── */
+    .ig-story-header {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: .5rem .7rem;
+      background: linear-gradient(to bottom, rgba(0,0,0,.45), transparent);
+      z-index: 2;
+    }
+    .ig-story-bar {
+      display: flex;
+      gap: 3px;
+      margin-bottom: .4rem;
+    }
+    .ig-story-segment {
+      flex: 1;
+      height: 2px;
+      background: rgba(255,255,255,.5);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .ig-story-segment.active { background: #fff; }
+    .ig-story-user {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      color: #fff;
+    }
+    .ig-story-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: linear-gradient(45deg, #f09433, #bc1888);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .6rem;
+      font-weight: 800;
+      color: #fff;
+      overflow: hidden;
+    }
+    .ig-story-name { font-size: .75rem; font-weight: 600; }
+    .ig-story-time { font-size: .65rem; opacity: .75; }
+
+    /* ── Reel layout ── */
+    .ig-media.reel { aspect-ratio: 9/16; max-height: 300px; }
+    .ig-reel-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: .7rem .8rem;
+      background: linear-gradient(to top, rgba(0,0,0,.7) 0%, transparent 100%);
+      color: #fff;
+      z-index: 2;
+    }
+    .ig-reel-username { font-size: .78rem; font-weight: 700; margin-bottom: .2rem; }
+    .ig-reel-caption { font-size: .7rem; opacity: .9; line-height: 1.4; }
+    .ig-reel-actions {
+      position: absolute;
+      right: .7rem;
+      bottom: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      z-index: 2;
+    }
+    .ig-reel-action { color: #fff; text-align: center; }
+    .ig-reel-action svg { display: block; margin: 0 auto .15rem; }
+    .ig-reel-action span { font-size: .65rem; font-weight: 600; }
+
+    /* ── Compteur de posts ── */
+    .brand-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .brand-stat {
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .8rem 1.5rem;
+      box-shadow: var(--shadow);
+      min-width: 110px;
+      transition: transform .2s;
+    }
+    .brand-stat:hover { transform: translateY(-3px); }
+    .brand-stat-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--indigo), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .brand-stat-label { font-size: .72rem; color: var(--text-muted); font-weight: 500; margin-top: .1rem; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION — "Créations" est l'onglet actif
+       ============================================================ -->
+  <nav>
+    <a href="index.html" class="nav-logo">RB_</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="projets.html">Projets IA</a></li>
+      <li><a href="creations.html" class="active">Créations</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- ── EN-TÊTE ── -->
+    <div class="page-header">
+      <h1 class="section-title">Créations Social Media</h1>
+      <p class="section-subtitle">Posts, Reels & Stories — Sergent Major · DPAM · Natalys · Bâtons Bleus · Mahny Jewelry</p>
+    </div>
+
+    <div class="container">
+
+      <!-- ── STATS GLOBALES ── -->
+      <div class="brand-stats">
+        <div class="brand-stat">
+          <div class="brand-stat-value">5</div>
+          <div class="brand-stat-label">Marques</div>
+        </div>
+        <div class="brand-stat">
+          <div class="brand-stat-value">30</div>
+          <div class="brand-stat-label">Créations</div>
+        </div>
+        <div class="brand-stat">
+          <div class="brand-stat-value">3</div>
+          <div class="brand-stat-label">Formats</div>
+        </div>
+      </div>
+
+      <!-- ── FILTRES PAR MARQUE ── -->
+      <div class="brand-filters">
+        <button class="brand-btn active" onclick="filterBrand('all', this)">
+          <span class="brand-dot" style="background:linear-gradient(135deg,#6366f1,#ec4899)"></span>
+          Toutes les marques
+        </button>
+        <button class="brand-btn" onclick="filterBrand('sergent-major', this)">
+          <span class="brand-dot" style="background:#1a3a6b"></span>
+          Sergent Major
+        </button>
+        <button class="brand-btn" onclick="filterBrand('dpam', this)">
+          <span class="brand-dot" style="background:#e63946"></span>
+          DPAM
+        </button>
+        <button class="brand-btn" onclick="filterBrand('natalys', this)">
+          <span class="brand-dot" style="background:#f4a261"></span>
+          Natalys
+        </button>
+        <button class="brand-btn" onclick="filterBrand('batons-bleus', this)">
+          <span class="brand-dot" style="background:#457b9d"></span>
+          Bâtons Bleus
+        </button>
+        <button class="brand-btn" onclick="filterBrand('mahny', this)">
+          <span class="brand-dot" style="background:#c9a84c"></span>
+          Mahny Jewelry
+        </button>
+      </div>
+
+      <!-- ============================================================
+           GRILLE DE POSTS
+           Chaque post-item a data-brand="..." pour le filtre
+           et data-type="reel|story|post" pour le format
+           ============================================================ -->
+      <div class="content-grid" id="grid">
+
+
+        <!-- ══════════════════════════════
+             SERGENT MAJOR — 3 Reels + 3 Stories
+             ══════════════════════════════ -->
+
+        <!-- SM Reel 1 -->
+        <div class="post-item" data-brand="sergent-major">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">SM</div></div>
+              <div><div class="ig-username">sergentmajor</div><div class="ig-location">Paris, France</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <!-- 👇 Remplace par : <video src="sergent-major-reel-1.mp4" autoplay muted loop playsinline></video> -->
+              <div class="ig-placeholder">
+                <span class="ig-placeholder-icon">🎬</span>
+                <span>sergent-major-reel-1.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">sergentmajor</div>
+                <div class="ig-reel-caption">La nouvelle collection printemps est là ✨ #SergentMajor #ModeEnfant</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                  <span>2.4k</span>
+                </div>
+                <div class="ig-reel-action">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <span>142</span>
+                </div>
+                <div class="ig-reel-action">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  <span>89</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SM Reel 2 -->
+        <div class="post-item" data-brand="sergent-major">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">SM</div></div>
+              <div><div class="ig-username">sergentmajor</div><div class="ig-location">Paris, France</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder">
+                <span class="ig-placeholder-icon">🎬</span>
+                <span>sergent-major-reel-2.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">sergentmajor</div>
+                <div class="ig-reel-caption">Back to school, on est prêts 🎒 #Rentrée #SergentMajor</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>1.8k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>98</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>65</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SM Reel 3 -->
+        <div class="post-item" data-brand="sergent-major">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">SM</div></div>
+              <div><div class="ig-username">sergentmajor</div><div class="ig-location">Paris, France</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder">
+                <span class="ig-placeholder-icon">🎬</span>
+                <span>sergent-major-reel-3.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">sergentmajor</div>
+                <div class="ig-reel-caption">Les must-have de l'hiver 🧥❄️ #SergentMajor #Hiver</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>3.1k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>201</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>110</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SM Story 1 -->
+        <div class="post-item" data-brand="sergent-major">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#1a3a6b,#2d5fa8)">
+                <span class="ig-placeholder-icon">📱</span>
+                <span style="color:#fff">sergent-major-story-1.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar">
+                  <div class="ig-story-segment active"></div>
+                  <div class="ig-story-segment"></div>
+                  <div class="ig-story-segment"></div>
+                </div>
+                <div class="ig-story-user">
+                  <div class="ig-story-avatar">SM</div>
+                  <div>
+                    <div class="ig-story-name">sergentmajor</div>
+                    <div class="ig-story-time">Il y a 2h</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SM Story 2 -->
+        <div class="post-item" data-brand="sergent-major">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#1a3a6b,#2d5fa8)">
+                <span class="ig-placeholder-icon">📱</span>
+                <span style="color:#fff">sergent-major-story-2.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar">
+                  <div class="ig-story-segment"></div>
+                  <div class="ig-story-segment active"></div>
+                  <div class="ig-story-segment"></div>
+                </div>
+                <div class="ig-story-user">
+                  <div class="ig-story-avatar">SM</div>
+                  <div><div class="ig-story-name">sergentmajor</div><div class="ig-story-time">Il y a 5h</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SM Story 3 -->
+        <div class="post-item" data-brand="sergent-major">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#1a3a6b,#2d5fa8)">
+                <span class="ig-placeholder-icon">📱</span>
+                <span style="color:#fff">sergent-major-story-3.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar">
+                  <div class="ig-story-segment"></div>
+                  <div class="ig-story-segment"></div>
+                  <div class="ig-story-segment active"></div>
+                </div>
+                <div class="ig-story-user">
+                  <div class="ig-story-avatar">SM</div>
+                  <div><div class="ig-story-name">sergentmajor</div><div class="ig-story-time">Il y a 8h</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ══════════════════════════════
+             DPAM — 3 Reels + 3 Stories
+             ══════════════════════════════ -->
+
+        <!-- DPAM Reel 1 -->
+        <div class="post-item" data-brand="dpam">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">DP</div></div>
+              <div><div class="ig-username">dupareilaumeme</div><div class="ig-location">Paris, France</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#fde8e8,#fbb6b6)">
+                <span class="ig-placeholder-icon">🎬</span>
+                <span>dpam-reel-1.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">dupareilaumeme</div>
+                <div class="ig-reel-caption">Couleurs pastels, bonne humeur garantie 🌈 #DPAM #ModeEnfant</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>3.2k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>178</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>94</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DPAM Reel 2 -->
+        <div class="post-item" data-brand="dpam">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">DP</div></div>
+              <div><div class="ig-username">dupareilaumeme</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#fde8e8,#fbb6b6)">
+                <span class="ig-placeholder-icon">🎬</span><span>dpam-reel-2.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">dupareilaumeme</div>
+                <div class="ig-reel-caption">Soldes d'été — jusqu'à -50% 🛍️ #DPAM #Soldes</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>2.7k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>133</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>77</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DPAM Reel 3 -->
+        <div class="post-item" data-brand="dpam">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">DP</div></div>
+              <div><div class="ig-username">dupareilaumeme</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#fde8e8,#fbb6b6)">
+                <span class="ig-placeholder-icon">🎬</span><span>dpam-reel-3.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">dupareilaumeme</div>
+                <div class="ig-reel-caption">Noël approche 🎄 Découvrez nos collections cadeaux #DPAM</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>4.1k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>245</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>130</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DPAM Story 1 -->
+        <div class="post-item" data-brand="dpam">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#e63946,#ff6b6b)">
+                <span class="ig-placeholder-icon">📱</span>
+                <span style="color:#fff">dpam-story-1.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment active"></div><div class="ig-story-segment"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">DP</div><div><div class="ig-story-name">dupareilaumeme</div><div class="ig-story-time">Il y a 1h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DPAM Story 2 -->
+        <div class="post-item" data-brand="dpam">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#e63946,#ff6b6b)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">dpam-story-2.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment active"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">DP</div><div><div class="ig-story-name">dupareilaumeme</div><div class="ig-story-time">Il y a 3h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DPAM Story 3 -->
+        <div class="post-item" data-brand="dpam">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#e63946,#ff6b6b)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">dpam-story-3.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment"></div><div class="ig-story-segment active"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">DP</div><div><div class="ig-story-name">dupareilaumeme</div><div class="ig-story-time">Il y a 6h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ══════════════════════════════
+             NATALYS — 3 Reels + 3 Stories
+             ══════════════════════════════ -->
+
+        <!-- Natalys Reel 1 -->
+        <div class="post-item" data-brand="natalys">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">NA</div></div>
+              <div><div class="ig-username">natalys_officiel</div><div class="ig-location">Paris, France</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#fff3e0,#ffcc80)">
+                <span class="ig-placeholder-icon">🎬</span><span>natalys-reel-1.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">natalys_officiel</div>
+                <div class="ig-reel-caption">Préparer l'arrivée de bébé avec Natalys 👶🏻 #Natalys #FutureMaman</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>1.9k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>115</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>72</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Natalys Reel 2 -->
+        <div class="post-item" data-brand="natalys">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">NA</div></div>
+              <div><div class="ig-username">natalys_officiel</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#fff3e0,#ffcc80)">
+                <span class="ig-placeholder-icon">🎬</span><span>natalys-reel-2.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">natalys_officiel</div>
+                <div class="ig-reel-caption">La liste de naissance idéale 🛍️ #Natalys #Bébé</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>2.2k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>88</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>51</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Natalys Reel 3 -->
+        <div class="post-item" data-brand="natalys">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">NA</div></div>
+              <div><div class="ig-username">natalys_officiel</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#fff3e0,#ffcc80)">
+                <span class="ig-placeholder-icon">🎬</span><span>natalys-reel-3.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">natalys_officiel</div>
+                <div class="ig-reel-caption">Collection puériculture 2024 🌟 #Natalys #Puériculture</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>1.5k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>67</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>43</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Natalys Stories 1-3 -->
+        <div class="post-item" data-brand="natalys">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#f4a261,#e76f51)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">natalys-story-1.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment active"></div><div class="ig-story-segment"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">NA</div><div><div class="ig-story-name">natalys_officiel</div><div class="ig-story-time">Il y a 2h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="natalys">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#f4a261,#e76f51)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">natalys-story-2.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment active"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">NA</div><div><div class="ig-story-name">natalys_officiel</div><div class="ig-story-time">Il y a 4h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="natalys">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#f4a261,#e76f51)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">natalys-story-3.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment"></div><div class="ig-story-segment active"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">NA</div><div><div class="ig-story-name">natalys_officiel</div><div class="ig-story-time">Il y a 7h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ══════════════════════════════
+             BÂTONS BLEUS — 3 Reels + 3 Stories
+             ══════════════════════════════ -->
+
+        <div class="post-item" data-brand="batons-bleus">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">BB</div></div>
+              <div><div class="ig-username">batonsbleus_twirling</div><div class="ig-location">Pierrelaye, France</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#a8dadc,#457b9d)">
+                <span class="ig-placeholder-icon">🎬</span><span>batons-bleus-reel-1.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">batonsbleus_twirling</div>
+                <div class="ig-reel-caption">Compétition régionale 2024 🥇 #TwirlBaton #BâtonsBleus</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>412</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>28</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>19</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="batons-bleus">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">BB</div></div>
+              <div><div class="ig-username">batonsbleus_twirling</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#a8dadc,#457b9d)">
+                <span class="ig-placeholder-icon">🎬</span><span>batons-bleus-reel-2.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">batonsbleus_twirling</div>
+                <div class="ig-reel-caption">Gala de fin d'année ✨ #TwirlBaton #Spectacle</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>287</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>17</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>12</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="batons-bleus">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">BB</div></div>
+              <div><div class="ig-username">batonsbleus_twirling</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#a8dadc,#457b9d)">
+                <span class="ig-placeholder-icon">🎬</span><span>batons-bleus-reel-3.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">batonsbleus_twirling</div>
+                <div class="ig-reel-caption">Venez nous rejoindre ! Cours ouverts à tous 💙 #Twirling</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>198</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>11</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>8</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="batons-bleus">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#457b9d,#1d3557)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">batons-bleus-story-1.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment active"></div><div class="ig-story-segment"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">BB</div><div><div class="ig-story-name">batonsbleus_twirling</div><div class="ig-story-time">Il y a 3h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="batons-bleus">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#457b9d,#1d3557)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">batons-bleus-story-2.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment active"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">BB</div><div><div class="ig-story-name">batonsbleus_twirling</div><div class="ig-story-time">Il y a 5h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="batons-bleus">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#457b9d,#1d3557)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">batons-bleus-story-3.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment"></div><div class="ig-story-segment active"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">BB</div><div><div class="ig-story-name">batonsbleus_twirling</div><div class="ig-story-time">Il y a 9h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- ══════════════════════════════
+             MAHNY JEWELRY — 3 Reels + 3 Stories
+             ══════════════════════════════ -->
+
+        <div class="post-item" data-brand="mahny">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">MJ</div></div>
+              <div><div class="ig-username">mahny.jewelry</div><div class="ig-location">Paris, France</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#f8f0d8,#c9a84c)">
+                <span class="ig-placeholder-icon">🎬</span><span>mahny-reel-1.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">mahny.jewelry</div>
+                <div class="ig-reel-caption">Notre nouvelle collection printemps ✨ #MahnyJewelry #Bijoux</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>892</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>54</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>37</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="mahny">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">MJ</div></div>
+              <div><div class="ig-username">mahny.jewelry</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#f8f0d8,#c9a84c)">
+                <span class="ig-placeholder-icon">🎬</span><span>mahny-reel-2.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">mahny.jewelry</div>
+                <div class="ig-reel-caption">Comment porter nos colliers en or ? 💛 #Bijoux #StyleTips</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>654</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>41</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>29</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="mahny">
+          <div class="insta-phone">
+            <div class="ig-header">
+              <div class="ig-avatar"><div class="ig-avatar-inner">MJ</div></div>
+              <div><div class="ig-username">mahny.jewelry</div></div>
+              <div class="ig-more">···</div>
+            </div>
+            <div class="ig-media reel">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#f8f0d8,#c9a84c)">
+                <span class="ig-placeholder-icon">🎬</span><span>mahny-reel-3.mp4</span>
+              </div>
+              <div class="ig-type-badge">▶ Reel</div>
+              <div class="ig-reel-overlay">
+                <div class="ig-reel-username">mahny.jewelry</div>
+                <div class="ig-reel-caption">Idées cadeaux pour la Saint-Valentin 💝 #MahnyJewelry</div>
+              </div>
+              <div class="ig-reel-actions">
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg><span>1.1k</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>73</span></div>
+                <div class="ig-reel-action"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg><span>48</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="mahny">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#c9a84c,#8b6914)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">mahny-story-1.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment active"></div><div class="ig-story-segment"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">MJ</div><div><div class="ig-story-name">mahny.jewelry</div><div class="ig-story-time">Il y a 1h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="mahny">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#c9a84c,#8b6914)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">mahny-story-2.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment active"></div><div class="ig-story-segment"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">MJ</div><div><div class="ig-story-name">mahny.jewelry</div><div class="ig-story-time">Il y a 4h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="post-item" data-brand="mahny">
+          <div class="insta-phone">
+            <div class="ig-media story">
+              <div class="ig-placeholder" style="background:linear-gradient(135deg,#c9a84c,#8b6914)">
+                <span class="ig-placeholder-icon">📱</span><span style="color:#fff">mahny-story-3.jpg</span>
+              </div>
+              <div class="ig-type-badge">◉ Story</div>
+              <div class="ig-story-header">
+                <div class="ig-story-bar"><div class="ig-story-segment"></div><div class="ig-story-segment"></div><div class="ig-story-segment active"></div></div>
+                <div class="ig-story-user"><div class="ig-story-avatar">MJ</div><div><div class="ig-story-name">mahny.jewelry</div><div class="ig-story-time">Il y a 7h</div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /content-grid -->
+    </div><!-- /container -->
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-text">Conçu avec <span>passion</span> & <span>IA</span> par <span>Romane Boyé</span> · 2026</p>
+      <a href="https://www.linkedin.com/in/romane-boye/" target="_blank" class="footer-linkedin">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.554v-5.57c0-1.328-.025-3.037-1.85-3.037-1.852 0-2.135 1.446-2.135 2.94v5.667H9.357V9h3.414v1.561h.048c.476-.9 1.637-1.85 3.368-1.85 3.6 0 4.267 2.37 4.267 5.455v6.284zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.956 20.45H3.714V9h3.242v11.45zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </footer>
+
+  <!-- ── SCRIPT DE FILTRAGE ── -->
+  <script>
+    function filterBrand(brand, btn) {
+      // Met à jour le bouton actif
+      document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Filtre les posts
+      document.querySelectorAll('.post-item').forEach(item => {
+        if (brand === 'all' || item.dataset.brand === brand) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

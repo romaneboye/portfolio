@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romane Boyé — Social Media</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Feuille de styles partagée -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       STYLES SPÉCIFIQUES — SOCIAL MEDIA
+       ═══════════════════════════════════════════════════ */
+
+    /* BARRE ET BOUTONS DES MARQUES */
+    .brand-nav {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .brand-btn {
+      background: var(--bg-card, #fff);
+      border: 1.5px solid var(--border, #e2e8f0);
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text-muted, #64748b);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .brand-btn img {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #0f172a;
+    }
+    .brand-btn:hover {
+      border-color: #0f172a;
+      color: #0f172a;
+    }
+    .brand-btn.active {
+      background: #0f172a;
+      color: #fff;
+      border-color: #0f172a;
+    }
+
+    /* BANNIÈRE DE LA MARQUE SÉLECTIONNÉE */
+    .brand-banner {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 16px;
+      padding: 1.5rem 1.8rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .brand-banner-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border, #e2e8f0);
+      flex-shrink: 0;
+    }
+    .brand-banner-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 0.2rem;
+    }
+    .brand-banner-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted, #64748b);
+      line-height: 1.4;
+    }
+
+    /* BADGES DE COULEURS PAR CATÉGORIE */
+    .badge-pink {
+      background: #fdf2f8;
+      color: #db2777;
+      border: 1px solid #fbcfe8;
+    }
+    .badge-purple {
+      background: #f3e8ff;
+      color: #9333ea;
+      border: 1px solid #e9d5ff;
+    }
+    .badge-indigo {
+      background: #eef2ff;
+      color: #4f46e5;
+      border: 1px solid #c7d2fe;
+    }
+    .badge-teal {
+      background: #ccfbf1;
+      color: #0d9488;
+      border: 1px solid #99f6e4;
+    }
+    .badge-orange {
+      background: #fff7ed;
+      color: #ea580c;
+      border: 1px solid #ffedd5;
+    }
+
+    /* BLOCS ET GRILLES DE MÉDIAS */
+    .media-section {
+      display: none;
+    }
+    .media-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Forcer 3 colonnes pour les grilles de Reels */
+    .media-grid.reel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* Adaptation mobile */
+    @media (max-width: 768px) {
+      .media-grid.reel-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 480px) {
+      .media-grid.reel-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CARTES CLIQUABLES */
+    .media-card {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+    }
+    .media-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+
+    /* Aperçu des cartes posts au format 4:5 */
+    .media-preview {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: #f1f5f9;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Aperçu des cartes reels au format 9:16 */
+    .media-preview.reel {
+      aspect-ratio: 9 / 16;
+      max-height: 320px;
+      object-fit: cover;
+    }
+
+    .media-content {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
+    }
+    .media-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #0f172a;
+    }
+    .media-desc {
+      font-size: 0.8rem;
+      color: #64748b;
+      line-height: 1.4;
+    }
+
+    /* STORIES */
+    .stories-flex {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      overflow-x: auto;
+      padding-bottom: 0.8rem;
+      margin-bottom: 2.5rem;
+      scrollbar-width: none;
+    }
+    .stories-flex::-webkit-scrollbar {
+      display: none;
+    }
+    .story-item {
+      text-align: center;
+      min-width: 75px;
+      cursor: pointer;
+    }
+    .story-circle {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #6366f1, #ec4899);
+      margin: 0 auto 0.4rem;
+    }
+    .story-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+      background: #fff;
+    }
+
+    /* CAMPAGNES INFLUENCE */
+    .influence-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .influence-card {
+      background: var(--bg-card, #fff);
+      border: 1px solid var(--border, #e2e8f0);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .influence-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+    .influence-media-wrap {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      max-height: 320px;
+      background: #f1f5f9;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .influence-media-wrap img,
+    .influence-media-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .influence-body {
+      padding: 1.2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex: 1;
+    }
+
+    /* ═══════════════════════════════════════════════════
+       MODALE / LIGHTBOX MULTI-FORMAT
+       ═══════════════════════════════════════════════════ */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    #lightbox.open {
+      display: flex;
+    }
+
+    .lb-card {
+      background: #000;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Modale format Reel / Story (9:16) */
+    .lb-card.reel-mode {
+      height: 85vh;
+      aspect-ratio: 9 / 16;
+      max-width: 90vw;
+    }
+
+    /* Modale format Post (4:5) */
+    .lb-card.square-mode {
+      max-width: 480px;
+      width: 100%;
+      background: #fff;
+    }
+
+    .lb-media-wrap {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .lb-card.square-mode .lb-media-wrap {
+      aspect-ratio: 4 / 5;
+      background: #f1f5f9;
+    }
+    .lb-media-wrap img, 
+    .lb-media-wrap video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .lb-card.reel-mode .lb-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 1.2rem 1.2rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+      color: #fff;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .lb-card.reel-mode .lb-title {
+      color: #fff;
+    }
+    .lb-card.reel-mode .lb-desc {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .lb-card.square-mode .lb-info {
+      padding: 1.2rem 1.5rem;
+      background: #fff;
+      width: 100%;
+    }
+    .lb-title {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: #0f172a;
+      margin-bottom: 0.3rem;
+    }
+    .lb-desc {
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="index.html" class="nav-logo">RB_</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="cv.html">CV</a></li>
+      <li><a href="projets.html">Projets IA</a></li>
+      <li><a href="social.html" class="active">Social Media</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <!-- EN-TÊTE DE LA PAGE -->
+    <div class="page-header">
+      <h1 class="section-title">Social Media &amp; Influence</h1>
+      <p class="section-subtitle">Créations de contenu, Reels et campagnes d'influence</p>
+    </div>
+
+    <div class="container">
+
+      <!-- ONGLETS MARQUES DIRECTS -->
+      <div class="brand-nav">
+        <button class="brand-btn active" onclick="selectBrand('sergent', this)">
+          <img src="logo-sergent-major.jpg" alt="Sergent Major"> Sergent Major
+        </button>
+        <button class="brand-btn" onclick="selectBrand('dpam', this)">
+          <img src="logo-DPAM.jpg" alt="Du Pareil au Même"> Du Pareil au Même
+        </button>
+        <button class="brand-btn" onclick="selectBrand('batons', this)">
+          <img src="logo-BB.png" alt="Bâtons Bleus"> Bâtons Bleus
+        </button>
+        <button class="brand-btn" onclick="selectBrand('mahny', this)">
+          <img src="logo-mahny.jpg" alt="Mahny Jewelry"> Mahny Jewelry
+        </button>
+      </div>
+
+      <!-- ════════════════ SERGENT MAJOR ════════════════ -->
+      <div class="media-section active" id="brand-sergent">
+        <div class="brand-banner">
+          <img src="logo-sergent-major.jpg" alt="Sergent Major" class="brand-banner-logo">
+          <div>
+            <div class="brand-banner-title">Sergent Major</div>
+            <div class="brand-banner-desc">Mode enfant classique et élégante.</div>
+          </div>
+        </div>
+
+        <!-- Stories à la une -->
+        <h3 class="cv-block-title">Stories à la une</h3>
+        <div class="stories-flex">
+          <div class="story-item" onclick="openLightbox('sm-story1.jpg', 'Cadeaux Naissance', 'Sélection d\'idées de cadeaux pour la naissance.', 'story')">
+            <div class="story-circle"><img src="sm-story1.jpg" alt="Cadeaux Naissance" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">Cadeaux Naissance</span>
+          </div>
+
+          <div class="story-item" onclick="openLightbox('sm-story2.jpg', 'Couleur de Dune', 'Découverte de la nuance Couleur de Dune.', 'story')">
+            <div class="story-circle"><img src="sm-story2.jpg" alt="Couleur de Dune" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">Couleur de Dune</span>
+          </div>
+
+          <div class="story-item" onclick="openLightbox('sm-story3.jpg', 'Nouvelle Collection', 'Aperçu des nouveautés en boutique.', 'story')">
+            <div class="story-circle"><img src="sm-story3.jpg" alt="Nouvelle Collection" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">Nouvelle Collection</span>
+          </div>
+
+          <div class="story-item" onclick="openLightbox('sm-story4.jpg', 'Look Details', 'Focus sur les détails et finitions des pièces.', 'story')">
+            <div class="story-circle"><img src="sm-story4.jpg" alt="Look Details" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">Look Details</span>
+          </div>
+        </div>
+
+        <!-- Posts -->
+        <h3 class="cv-block-title">Posts &amp; Carrousels</h3>
+        <div class="media-grid">
+          <div class="media-card" onclick="openLightbox('sm-post-1.jpg', '☀️ Bonjour Soleil, bonjour la mer !', 'Avec la Collection Plage, Sergent Major vous emmène au bord de l’eau 🌊\n\nUne escapade ensoleillée, entre baignades, châteaux de sable et éclats de rire…\nDes looks colorés, pensés pour les petits vacanciers de 6 mois à 11 ans, avec tout ce qu’il faut pour profiter de l’été, stylés et bien protégés 🕶️👒\n\nPrêts à plonger dans l\'aventure ? 💦💛', 'post')">
+            <img src="sm-post-1.jpg" alt="☀️ Bonjour Soleil, bonjour la mer !" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">☀️ Bonjour Soleil, bonjour la mer !</div>
+              <div class="media-desc">
+                Avec la Collection Plage, Sergent Major vous emmène au bord de l’eau 🌊<br><br>
+                Une escapade ensoleillée, entre baignades, châteaux de sable et éclats de rire…<br>
+                Des looks colorés, pensés pour les petits vacanciers de 6 mois à 11 ans, avec tout ce qu’il faut pour profiter de l’été, stylés et bien protégés 🕶️👒<br><br>
+                Prêts à plonger dans l'aventure ? 💦💛
+              </div>
+            </div>
+          </div>
+
+          <div class="media-card" onclick="openLightbox('sm-post-2.jpg', 'Et si l’automne commençait en douceur… sous les figuiers ?', 'Premiers éclats fuchsia, imprimés fleuris et coupes légères pour une rentrée tout en tendresse.\nUn goûter au jardin, des rires dans l’herbe, et des tenues à croquer : notre toute première histoire de saison est servie ! 🍑🌿💗', 'post')">
+            <img src="sm-post-2.jpg" alt="Et si l’automne commençait en douceur… sous les figuiers ?" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">Et si l’automne commençait en douceur… sous les figuiers ?</div>
+              <div class="media-desc">
+                Premiers éclats fuchsia, imprimés fleuris et coupes légères pour une rentrée tout en tendresse.<br>
+                Un goûter au jardin, des rires dans l’herbe, et des tenues à croquer : notre toute première histoire de saison est servie ! 🍑🌿💗
+              </div>
+            </div>
+          </div>
+
+          <div class="media-card" onclick="openLightbox('sm-post-3.jpg', 'Driiiing !!! 🔔', 'C’est la rentrée et notre Nouvelle Collection arrive avec style à l\'internat anglais 🎒🇬🇧\n\nPommes acidulées pour les filles 🍏, bleu classique 💙 ou camaïeux de gris pour les garçons.\n\nLe denim en pièce maîtresse. 👖', 'post')">
+            <img src="sm-post-3.jpg" alt="Driiiing !!! 🔔" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">Driiiing !!! 🔔</div>
+              <div class="media-desc">
+                C’est la rentrée et notre Nouvelle Collection arrive avec style à l'internat anglais 🎒🇬🇧<br><br>
+                Pommes acidulées pour les filles 🍏, bleu classique 💙 ou camaïeux de gris pour les garçons.<br><br>
+                Le denim en pièce maîtresse. 👖
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reels -->
+        <h3 class="cv-block-title">Reels &amp; TikTok</h3>
+        <div class="media-grid reel-grid">
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('sm-reel-1.mp4', 'Transition Printemps', '✨Pour les grandes occasions✨\n🌍Dans notre valise : une robe en tulle et nos plus beaux accessoires pour faire venir le Printemps ;).', 'reel')">
+            <video src="sm-reel-1.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Reel</span>
+              <div class="media-title">Transition Printemps</div>
+              <div class="media-desc">
+                ✨Pour les grandes occasions✨<br>
+                🌍Dans notre valise : une robe en tulle et nos plus beaux accessoires pour faire venir le Printemps ;).
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campagnes -->
+        <h3 class="cv-block-title">Campagnes d'Influence et Partenariats</h3>
+        <div class="influence-grid">
+          
+          <!-- Campagne Reel -->
+          <div class="influence-card">
+            <div class="influence-media-wrap" 
+                 onmouseenter="const v=this.querySelector('video'); if(v) v.play()" 
+                 onmouseleave="const v=this.querySelector('video'); if(v) v.pause()"
+                 onclick="openLightbox('sm-part1.mp4', 'Jeu Concours', 'Sourçage de la marque partenaire, sélection des produits envoyés, suivi des publications et analyse des KPIs.', 'reel')">
+              <video src="sm-part1.mp4" muted playsinline loop></video>
+            </div>
+            <div class="influence-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title">Jeu Concours</div>
+                  <div class="exp-company">Les Cotons de Romane X Sergent Major</div>
+                </div>
+                <span class="badge badge-teal">1,5K participants</span>
+              </div>
+              <p class="exp-desc">
+                Sourçage de la marque partenaire, sélection des produits envoyés, suivi des publications et analyse des KPIs.
+              </p>
+            </div>
+          </div>
+
+          <!-- Campagne Post -->
+          <div class="influence-card">
+            <div class="influence-media-wrap" 
+                 onclick="openLightbox('sm-influ2.jpg', 'Collection Rentrée', 'Activation de 10 micro-influenceurs pour promouvoir la collection.', 'post')">
+              <img src="sm-influ2.jpg" alt="Collection Rentrée">
+            </div>
+            <div class="influence-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title">Collection Rentrée</div>
+                  <div class="exp-company">Micro-influence</div>
+                </div>
+                <span class="badge badge-indigo">15% d'engagement</span>
+              </div>
+              <p class="exp-desc">
+                Activation de 10 micro-influenceurs pour promouvoir la collection.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ════════════════ DU PAREIL AU MÊME ════════════════ -->
+      <div class="media-section" id="brand-dpam">
+        <div class="brand-banner">
+          <img src="logo-DPAM.jpg" alt="Du Pareil au Même" class="brand-banner-logo">
+          <div>
+            <div class="brand-banner-title">Du Pareil au Même</div>
+            <div class="brand-banner-desc">Mode enfant coloré et créatif.</div>
+          </div>
+        </div>
+
+        <!-- Stories à la une -->
+        <h3 class="cv-block-title">Stories à la une</h3>
+        <div class="stories-flex">
+          <div class="story-item" onclick="openLightbox('dpam-story1.jpg', 'Baby Looks', 'Idée de tenues', 'story')">
+            <div class="story-circle"><img src="dpam-story1.jpg" alt="Baby Looks" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">Baby Looks</span>
+          </div>
+
+          <div class="story-item" onclick="openLightbox('dpam-story2.jpg', 'Fun Party', 'Nouvelle Collection Automne.', 'story')">
+            <div class="story-circle"><img src="dpam-story2.jpg" alt="Fun Party" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">Fun Party</span>
+          </div>
+
+          <div class="story-item" onclick="openLightbox('dpam-story3.jpg', 'Collection Lanzarote', 'Aperçu des nouveautés.', 'story')">
+            <div class="story-circle"><img src="dpam-story3.jpg" alt="Collection Lanzarote" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">Collection Lanzarote</span>
+          </div>
+
+          <div class="story-item" onclick="openLightbox('dpam-story4.jpg', 'L\'hiver approche', 'Focus sur les manteaux', 'story')">
+            <div class="story-circle"><img src="dpam-story4.jpg" alt="L'hiver approche" class="story-img"></div>
+            <span style="font-size:0.75rem;font-weight:600;">L'hiver approche</span>
+          </div>
+        </div>
+
+        <!-- Posts -->
+        <h3 class="cv-block-title">Posts &amp; Carrousels</h3>
+        <div class="media-grid">
+          <div class="media-card" onclick="openLightbox('dpam-post-1.jpg', 'Duo Mère-Fille', '✨ Difficile de résister à cette adorable Collection Mère-Fille… 💕 Et si cette superbe Collection Capsule devenait votre coup de cœur pour la fête des mères ? 🎁\n👀 On nous dit dans l\'oreillette que les stocks sont ultra limités… ⏳', 'post')">
+            <img src="dpam-post-1.jpg" alt="Duo Mère-Fille" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">Duo Mère-Fille</div>
+              <div class="media-desc">
+                ✨ Difficile de résister à cette adorable Collection Mère-Fille… 💕 Et si cette superbe Collection Capsule devenait votre coup de cœur pour la fête des mères ? 🎁<br>
+                👀 On nous dit dans l'oreillette que les stocks sont ultra limités… ⏳
+              </div>
+            </div>
+          </div>
+
+          <div class="media-card" onclick="openLightbox('dpam-post-2.jpg', 'Encore à moitié dans ses rêves…', 'et totalement en pyjama 😴✨', 'post')">
+            <img src="dpam-post-2.jpg" alt="Encore à moitié dans ses rêves…" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">Encore à moitié dans ses rêves…</div>
+              <div class="media-desc">
+                et totalement en pyjama 😴✨
+              </div>
+            </div>
+          </div>
+
+          <div class="media-card" onclick="openLightbox('dpam-post-3.jpg', 'Avec le soleil qui arrive, on sort l’attirail 😎', 'Visière sur la tête, look d’été activé, prêt pour toutes les aventures en plein air (même celles qui finissent les pieds dans l’eau) !\nEt chez vous, les looks de soleil sont déjà de sortie ?', 'post')">
+            <img src="dpam-post-3.jpg" alt="Avec le soleil qui arrive, on sort l’attirail 😎" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">Avec le soleil qui arrive, on sort l’attirail 😎</div>
+              <div class="media-desc">
+                Visière sur la tête, look d’été activé, prêt pour toutes les aventures en plein air (même celles qui finissent les pieds dans l’eau) !<br>
+                Et chez vous, les looks de soleil sont déjà de sortie ?
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reels -->
+        <h3 class="cv-block-title">Reels &amp; TikTok</h3>
+        <div class="media-grid reel-grid">
+
+          <!-- Reel 1 -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('dpam-reel-1.mp4', 'Time to choose', 'Alors, qu’est-ce qu’on en pense du choix d’Isaac ? 😄\nNous on adoreeee 💙 Pyjama validé à 100 % (même les yeux fermés 👀)\n\nEt vous, vous auriez choisi lequel ? Dites-nous tout 👇', 'reel')">
+            <video src="dpam-reel-1.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Reel</span>
+              <div class="media-title">Time to choose</div>
+              <div class="media-desc">
+                Alors, qu’est-ce qu’on en pense du choix d’Isaac ? 😄<br>
+                Nous on adoreeee 💙 Pyjama validé à 100 % (même les yeux fermés 👀)<br><br>
+                Et vous, vous auriez choisi lequel ? Dites-nous tout 👇
+              </div>
+            </div>
+          </div>
+
+          <!-- Reel 2 -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('dpam-reel-2.mp4', 'Mini interviews', 'Quand les mini-vous débattent de la meilleure façon de passer l’été 🌞\nEntre team chapeau et team casquette, les avis sont partagés (et adorables) 😍', 'reel')">
+            <video src="dpam-reel-2.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Reel</span>
+              <div class="media-title">Mini interviews</div>
+              <div class="media-desc">
+                Quand les mini-vous débattent de la meilleure façon de passer l’été 🌞<br>
+                Entre team chapeau et team casquette, les avis sont partagés (et adorables) 😍
+              </div>
+            </div>
+          </div>
+
+          <!-- Reel 3 -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('dpam-reel-3.mp4', 'Choisir sa tenue à l’aveugle ?', 'Même pas peur 😎\nQuand le style est inné, pas besoin de regarder 🎽👀', 'reel')">
+            <video src="dpam-reel-3.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Reel</span>
+              <div class="media-title">Choisir sa tenue à l’aveugle ?</div>
+              <div class="media-desc">
+                Même pas peur 😎<br>
+                Quand le style est inné, pas besoin de regarder 🎽👀
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Campagnes -->
+        <h3 class="cv-block-title">Campagnes d'Influence et Partenariats</h3>
+        <div class="influence-grid">
+          
+          <div class="influence-card">
+            <div class="influence-media-wrap" 
+                 onmouseenter="const v=this.querySelector('video'); if(v) v.play()" 
+                 onmouseleave="const v=this.querySelector('video'); if(v) v.pause()"
+                 onclick="openLightbox('dpam-influ1.mp4', 'Collection Mère-Fille', 'Activation de 5 micro-influenceurs.', 'reel')">
+              <video src="dpam-influ1.mp4" muted playsinline loop></video>
+            </div>
+            <div class="influence-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title">Collection Mère-Fille</div>
+                  <div class="exp-company">Micro-influence</div>
+                </div>
+                <span class="badge badge-teal">900 likes</span>
+              </div>
+              <p class="exp-desc">
+                Activation de 5 micro-influenceurs.
+              </p>
+            </div>
+          </div>
+
+          <div class="influence-card">
+            <div class="influence-media-wrap" 
+                 onmouseenter="const v=this.querySelector('video'); if(v) v.play()" 
+                 onmouseleave="const v=this.querySelector('video'); if(v) v.pause()"
+                 onclick="openLightbox('dpam-influ2.mp4', 'Collection Automne', 'Activation de 6 giga et macro-influenceurs.', 'reel')">
+              <video src="dpam-influ2.mp4" muted playsinline loop></video>
+            </div>
+            <div class="influence-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title">Collection Automne</div>
+                  <div class="exp-company">Giga-influence</div>
+                </div>
+                <span class="badge badge-teal">1,6M de vues</span>
+              </div>
+              <p class="exp-desc">
+                Activation de 6 giga et macro-influenceurs.
+              </p>
+            </div>
+          </div>
+
+          <div class="influence-card">
+            <div class="influence-media-wrap" 
+                 onmouseenter="const v=this.querySelector('video'); if(v) v.play()" 
+                 onmouseleave="const v=this.querySelector('video'); if(v) v.pause()"
+                 onclick="openLightbox('dpam-part1.mp4', 'Jeu Concours', 'Sourçage de la marque partenaire, sélection des produits envoyés, suivi des publications et analyse des KPIs.', 'reel')">
+              <video src="dpam-part1.mp4" muted playsinline loop></video>
+            </div>
+            <div class="influence-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title">Jeu Concours</div>
+                  <div class="exp-company">Pylones X DPAM</div>
+                </div>
+                <span class="badge badge-teal">1,2K participations</span>
+              </div>
+              <p class="exp-desc">
+                Sourçage de la marque partenaire, sélection des produits envoyés, suivi des publications et analyse des KPIs.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ════════════════ BÂTONS BLEUS ════════════════ -->
+      <div class="media-section" id="brand-batons">
+        <div class="brand-banner">
+          <img src="logo-BB.png" alt="Bâtons Bleus" class="brand-banner-logo">
+          <div>
+            <div class="brand-banner-title">Bâtons Bleus</div>
+            <div class="brand-banner-desc">Club dynamique de Twirling Bâton à Pierrelaye.</div>
+          </div>
+        </div>
+
+        <h3 class="cv-block-title">Reels &amp; TikTok</h3>
+        <div class="media-grid reel-grid">
+
+          <!-- Reel 1 : Trend (Violet) -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('BB-reel-1.mp4', 'Transition', 'Création d\'une série de reels pour présenter toutes les tenues des athlètes.', 'reel')">
+            <video src="BB-reel-1.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-purple">Trend</span>
+              <div class="media-title">Transition</div>
+              <div class="media-desc">
+                Création d'une série de reels pour présenter toutes les tenues des athlètes.
+              </div>
+            </div>
+          </div>
+
+          <!-- Reel 2 : Vlog (Rose) -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('BB-reel-2.mp4', 'Demi-Finale', 'Création de contenu en immersion pour présenter le déroulement des compétitions aux familles et futurs membres.', 'reel')">
+            <video src="BB-reel-2.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Vlog</span>
+              <div class="media-title">Demi-Finale</div>
+              <div class="media-desc">
+                Création de contenu en immersion pour présenter le déroulement des compétitions aux familles et futurs membres.
+              </div>
+            </div>
+          </div>
+
+          <!-- Reel 3 : Vlog (Rose) -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('BB-reel-3.mp4', 'Loto d\'Halloween', 'Format immersif pour promouvoir les événements de l\'association et donner un aperçu festif de nos initiatives à la ville et ses alentours.', 'reel')">
+            <video src="BB-reel-3.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Vlog</span>
+              <div class="media-title">Loto d'Halloween</div>
+              <div class="media-desc">
+                Format immersif pour promouvoir les événements de l'association et donner un aperçu festif de nos initiatives à la ville et ses alentours.
+              </div>
+            </div>
+          </div>
+
+          <!-- Reel 4 : Technique (Indigo) -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('BB-reel-4.mp4', 'Enchaînement', 'Mise en avant d\'enchaînements pensés pour encourager les futures inscriptions.', 'reel')">
+            <video src="BB-reel-4.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-indigo">Technique</span>
+              <div class="media-title">Enchaînement</div>
+              <div class="media-desc">
+                Mise en avant d'enchaînements pensés pour encourager les futures inscriptions.
+              </div>
+            </div>
+          </div>
+
+          <!-- Reel 5 : Calendrier de l'Avent (Orange) -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('BB-reel-5.mp4', 'La rumeur dit vrai ...', 'Série de contenus festifs quotidiens en décembre pour animer le club et valoriser les athlètes.', 'reel')">
+            <video src="BB-reel-5.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-orange">Calendrier de l'Avent</span>
+              <div class="media-title">La rumeur dit vrai ...</div>
+              <div class="media-desc">
+                Série de contenus festifs quotidiens en décembre pour animer le club et valoriser les athlètes.
+              </div>
+            </div>
+          </div>
+
+          <!-- Reel 6 : Calendrier de l'Avent (Orange) -->
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('BB-reel-6.mp4', 'Dans le sac !', 'Rendez-vous annuel très apprécié des familles, générant un fort taux d\'interaction auprès des parents.', 'reel')">
+            <video src="BB-reel-6.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-orange">Calendrier de l'Avent</span>
+              <div class="media-title">Dans le sac !</div>
+              <div class="media-desc">
+                Rendez-vous annuel très apprécié des familles, générant un fort taux d'interaction auprès des parents.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ════════════════ MAHNY JEWELRY ════════════════ -->
+      <div class="media-section" id="brand-mahny">
+        <div class="brand-banner">
+          <img src="logo-mahny.jpg" alt="Mahny Jewelry" class="brand-banner-logo">
+          <div>
+            <div class="brand-banner-title">Mahny Jewelry</div>
+            <div class="brand-banner-desc">Bijoux raffinés en pierres naturelles &amp; semi-précieuses.</div>
+          </div>
+        </div>
+
+        <!-- Posts -->
+        <h3 class="cv-block-title">Posts &amp; Carrousels</h3>
+        <div class="media-grid">
+          <div class="media-card" onclick="openLightbox('MJ-post1.jpg', 'Nos coffrets Boucles Pierres Modulables', 'arrivent Lundi prochain sur notre boutique en ligne 🥳🥳🥳', 'post')">
+            <img src="MJ-post1.jpg" alt="Nos coffrets Boucles Pierres Modulables" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">Nos coffrets Boucles Pierres Modulables</div>
+              <div class="media-desc">
+                arrivent Lundi prochain sur notre boutique en ligne 🥳🥳🥳
+              </div>
+            </div>
+          </div>
+
+          <div class="media-card" onclick="openLightbox('MJ-post2.jpg', 'Idées cadeau fête des mères', 'Parce qu’il n’y a rien de plus de beau qu’un bijou qui l’accompagnera tous les jours pour lui rappeler le lien qui vous unis ❤️', 'post')">
+            <img src="MJ-post2.jpg" alt="Idées cadeau fête des mères" class="media-preview">
+            <div class="media-content">
+              <span class="badge badge-indigo">Post</span>
+              <div class="media-title">Idées cadeau fête des mères</div>
+              <div class="media-desc">
+                Parce qu’il n’y a rien de plus de beau qu’un bijou qui l’accompagnera tous les jours pour lui rappeler le lien qui vous unis ❤️
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reels -->
+        <h3 class="cv-block-title">Reels &amp; TikTok</h3>
+        <div class="media-grid reel-grid">
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('MJ-reel-1.mp4', 'La galerie photo de Mahny', 'En tant que créatrice de bijoux de Mahny, je n’ai que ça dans ma galerie ! 😅\nEt vous, qu’est ce qui envahit votre galerie ?', 'reel')">
+            <video src="MJ-reel-1.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Reel</span>
+              <div class="media-title">La galerie photo de Mahny</div>
+              <div class="media-desc">
+                En tant que créatrice de bijoux de Mahny, je n’ai que ça dans ma galerie ! 😅<br>
+                Et vous, qu’est ce qui envahit votre galerie ?
+              </div>
+            </div>
+          </div>
+
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('MJ-reel-2.mp4', 'POV : Tu as trouvé des boucles d\'oreilles astucieuses', 'Pourquoi astucieuses ? 🧐 Pour vous éviter d’acheter chaque paires de boucles avec les anneaux, vous pouvez tout simplement acheter seuls et interchanger les pierres et pendentifs !', 'reel')">
+            <video src="MJ-reel-2.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Reel</span>
+              <div class="media-title">POV : Tu as trouvé des boucles d'oreilles astucieuses</div>
+              <div class="media-desc">
+                Pourquoi astucieuses ? 🧐 Pour vous éviter d’acheter chaque paires de boucles avec les anneaux, vous pouvez tout simplement acheter seuls et interchanger les pierres et pendentifs !
+              </div>
+            </div>
+          </div>
+
+          <div class="media-card" 
+               onmouseenter="this.querySelector('video').play()" 
+               onmouseleave="this.querySelector('video').pause()" 
+               onclick="openLightbox('MJ-reel-3.mp4', 'Tips Mahny : Accumulations bracelets', 'Comment combiner nos bracelets en pierres fines naturelles ?', 'reel')">
+            <video src="MJ-reel-3.mp4" class="media-preview reel" muted playsinline loop></video>
+            <div class="media-content">
+              <span class="badge badge-pink">Reel</span>
+              <div class="media-title">Tips Mahny : Accumulations bracelets</div>
+              <div class="media-desc">
+                Comment combiner nos bracelets en pierres fines naturelles ?
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campagnes -->
+        <h3 class="cv-block-title">Campagnes d'Influence et Partenariats</h3>
+        <div class="influence-grid">
+          <div class="influence-card">
+            <div class="influence-media-wrap" 
+                 onclick="openLightbox('MJ-part1.jpg', 'Jeu Concours', 'Bonbon Piment X Laure Derrey X Five Women X Mahny Jewelry', 'post')">
+              <img src="MJ-part1.jpg" alt="Jeu Concours">
+            </div>
+            <div class="influence-body">
+              <div class="exp-header">
+                <div>
+                  <div class="exp-title">Jeu Concours</div>
+                  <div class="exp-company">Fêtes des Mères</div>
+                </div>
+                <span class="badge badge-indigo">15% d'engagement</span>
+              </div>
+              <p class="exp-desc">
+                Bonbon Piment X Laure Derrey X Five Women X Mahny Jewelry
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- LIGHTBOX / MODALE DU PLEIN ÉCRAN -->
+  <div id="lightbox" onclick="closeLightboxOnBg(event)">
+    <div class="lb-card" id="lb-card">
+      <button class="lb-close" onclick="closeLightbox()">✕</button>
+      <div class="lb-media-wrap" id="lb-media-wrap"></div>
+      <div class="lb-info">
+        <div class="lb-title" id="lb-title"></div>
+        <div class="lb-desc" id="lb-desc"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <p class="footer-text">
+        Conçu avec <span>passion</span> &amp; <span>IA</span> par <span>Romane Boyé</span> · 2026
+      </p>
+      <a href="https://www.linkedin.com/in/romane-boye/" target="_blank" class="footer-linkedin">
+        LinkedIn
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    // Changement de marque
+    function selectBrand(brandId, btn) {
+      document.querySelectorAll('.brand-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.media-section').forEach(s => s.classList.remove('active'));
+      const activeSection = document.getElementById('brand-' + brandId);
+      if (activeSection) activeSection.classList.add('active');
+    }
+
+    // Lightbox multi-formats (Reel/Story 9:16 ou Post 4:5)
+    function openLightbox(src, title, desc, format) {
+      const lb = document.getElementById('lightbox');
+      const card = document.getElementById('lb-card');
+      const wrap = document.getElementById('lb-media-wrap');
+
+      const isReel = format === 'reel' || format === 'story';
+      card.className = 'lb-card ' + (isReel ? 'reel-mode' : 'square-mode');
+
+      const isVideo = src.endsWith('.mp4') || src.endsWith('.webm');
+      wrap.innerHTML = isVideo
+        ? `<video src="${src}" controls autoplay playsinline loop></video>`
+        : `<img src="${src}" alt="${title}">`;
+
+      document.getElementById('lb-title').textContent = title;
+      document.getElementById('lb-desc').textContent = desc;
+
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      lb.classList.remove('open');
+      document.body.style.overflow = '';
+      
+      const video = document.querySelector('#lb-media-wrap video');
+      if (video) video.pause();
+    }
+
+    function closeLightboxOnBg(e) {
+      if (e.target.id === 'lightbox') closeLightbox();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+
+</body>
+</html>
